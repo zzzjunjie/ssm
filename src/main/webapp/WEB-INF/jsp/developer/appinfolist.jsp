@@ -167,14 +167,22 @@
 							<tbody>
 								<c:forEach var="appInfo" items="${appInfoList }" varStatus="status">
 									<tr role="row" class="odd">
+										<%--软件名称--%>
 										<td tabindex="0" class="sorting_1">${appInfo.softwareName}</td>
+											<%--APK安装包的名称--%>
 										<td>${appInfo.APKName }</td>
+											<%--软件大小--%>
 										<td>${appInfo.softwareSize }</td>
+											<%--所属平台名称--%>
 										<td>${appInfo.flatformName }</td>
+											<%--所属分类--%>
 										<td>${appInfo.categoryLevel1Name } -> ${appInfo.categoryLevel2Name } -> ${appInfo.categoryLevel3Name }</td>
-										<td><span id="appInfoStatus${appInfo.id}">${appInfo.statusName }</span></td>
-										<td>${appInfo.downloads }</td>
-										<td>${appInfo.versionNo }</td>
+											<%--APP状态名--%>
+											<td><span id="appInfoStatus${appInfo.id}">${appInfo.statusName }</span></td>
+											<%--APP下载次数--%>
+											<td>${appInfo.downloads }</td>
+											<%--最新版本号--%>
+											<td>${appInfo.versionNo }</td>
 										<td>
 										
 										

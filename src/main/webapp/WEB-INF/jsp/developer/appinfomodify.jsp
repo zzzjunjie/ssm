@@ -6,6 +6,7 @@
   <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
+        <%--获取开发者姓名--%>
         <h2>修改APP基础信息 <i class="fa fa-user"></i><small>${devUserSession.devName}</small></h2>
              <div class="clearfix"></div>
       </div>
@@ -16,6 +17,7 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">软件名称 <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
+              <%--获取软件名称--%>
               <input id="softwareName" class="form-control col-md-7 col-xs-12" 
                data-validate-length-range="20" data-validate-words="1" 
                name="softwareName" value="${appInfo.softwareName}" required="required"
@@ -26,6 +28,7 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">APK名称 <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
+              <%--获取软件apk名称--%>
               <input id="APKName" type="text" class="form-control col-md-7 col-xs-12" 
               name="APKName" value="${appInfo.APKName}" readonly="readonly">
             </div>
@@ -34,6 +37,7 @@
           <div class="item form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">支持ROM <span class="required">*</span>
             </label>
+            <%--支持的版本--%>
             <div class="col-md-6 col-sm-6 col-xs-12">
               <input id="supportROM" class="form-control col-md-7 col-xs-12" 
               	name="supportROM" value="${appInfo.supportROM}" required="required"
@@ -103,7 +107,7 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">APP状态 <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-            	<input id="statusName" type="text" class="form-control col-md-7 col-xs-12" 
+            	<input id="statusName" type="text" class="form-control col-md-7 col-xs-112"
               	name="statusName" value="${appInfo.statusName}" readonly="readonly">
             </div>
           </div>

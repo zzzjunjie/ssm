@@ -11,7 +11,7 @@
         http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
-        
+        <!--扫描controller下的注解-->
    <context:component-scan base-package="cn.appsys.controller"/>
    
    <mvc:annotation-driven>
@@ -54,6 +54,7 @@
         </property>
         <property name="viewResolvers">
             <list>
+				<!--前置加/WEB-INF/jsp，后置加.jsp-->
                 <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 				   <property name="prefix" value="/WEB-INF/jsp/"/>
 				   <property name="suffix" value=".jsp"/>
@@ -62,14 +63,14 @@
         </property>
     </bean>
  
-	<!-- 配置interceptors -->
+	<!-- 配置interceptors拦截器 -->
+	<!--用来验证用户是否非法操作-->
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/manager/backend/**"/>
 			<mvc:mapping path="/dev/flatform/**"/>
 			<bean class="cn.appsys.interceptor.SysInterceptor"/>
 		</mvc:interceptor>
-		
 	</mvc:interceptors>
 	
 	<!-- 配置文件上传  MultipartResolver-->

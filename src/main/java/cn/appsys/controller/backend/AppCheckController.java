@@ -15,7 +15,6 @@ import cn.appsys.service.developer.AppCategoryService;
 import cn.appsys.service.developer.AppVersionService;
 import cn.appsys.service.developer.DataDictionaryService;
 import cn.appsys.tools.PageSupport;
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +29,6 @@ import java.util.List;
 @Controller
 @RequestMapping({"/manage/backend/app"})
 public class AppCheckController {
-  private Logger logger = Logger.getLogger(AppCheckController.class);
   @Resource
   private AppService appService;
   @Resource
@@ -45,12 +43,6 @@ public class AppCheckController {
 
   @RequestMapping({"/list"})
   public String getAppInfoList(Model model, HttpSession session, @RequestParam(value = "querySoftwareName",required = false) String querySoftwareName, @RequestParam(value = "queryCategoryLevel1",required = false) String _queryCategoryLevel1, @RequestParam(value = "queryCategoryLevel2",required = false) String _queryCategoryLevel2, @RequestParam(value = "queryCategoryLevel3",required = false) String _queryCategoryLevel3, @RequestParam(value = "queryFlatformId",required = false) String _queryFlatformId, @RequestParam(value = "pageIndex",required = false) String pageIndex) {
-    this.logger.info("getAppInfoList -- > querySoftwareName: " + querySoftwareName);
-    this.logger.info("getAppInfoList -- > queryCategoryLevel1: " + _queryCategoryLevel1);
-    this.logger.info("getAppInfoList -- > queryCategoryLevel2: " + _queryCategoryLevel2);
-    this.logger.info("getAppInfoList -- > queryCategoryLevel3: " + _queryCategoryLevel3);
-    this.logger.info("getAppInfoList -- > queryFlatformId: " + _queryFlatformId);
-    this.logger.info("getAppInfoList -- > pageIndex: " + pageIndex);
     List<AppInfo> appInfoList = null;
     List<DataDictionary> flatFormList = null;
     List<AppCategory> categoryLevel1List = null;
@@ -61,8 +53,8 @@ public class AppCheckController {
     if (pageIndex != null) {
       try {
         currentPageNo = Integer.valueOf(pageIndex);
-      } catch (NumberFormatException var26) {
-        var26.printStackTrace();
+      } catch (NumberFormatException e) {
+        e.printStackTrace();
       }
     }
 
@@ -89,9 +81,9 @@ public class AppCheckController {
     int totalCount = 0;
 
     try {
-      totalCount = this.appService.getAppInfoCount(querySoftwareName, queryCategoryLevel1, queryCategoryLevel2, queryCategoryLevel3, queryFlatformId);
-    } catch (Exception var25) {
-      var25.printStackTrace();
+      totalCount = appService.getAppInfoCount(querySoftwareName, queryCategoryLevel1, queryCategoryLevel2, queryCategoryLevel3, queryFlatformId);
+    } catch (Exception e) {
+      e.printStackTrace();
     }
 
     PageSupport pages = new PageSupport();
@@ -106,11 +98,11 @@ public class AppCheckController {
     }
 
     try {
-      appInfoList = this.appService.getAppInfoList(querySoftwareName, queryCategoryLevel1, queryCategoryLevel2, queryCategoryLevel3, queryFlatformId, currentPageNo, Integer.valueOf(pageSize));
-      flatFormList = this.getDataDictionaryList("APP_FLATFORM");
-      categoryLevel1List = this.appCategoryService.getAppCategoryListByParentId((Integer)null);
-    } catch (Exception var24) {
-      var24.printStackTrace();
+      appInfoList = appService.getAppInfoList(querySoftwareName, queryCategoryLevel1, queryCategoryLevel2, queryCategoryLevel3, queryFlatformId, currentPageNo, Integer.valueOf(pageSize));
+      flatFormList = getDataDictionaryList("APP_FLATFORM");
+      categoryLevel1List = appCategoryService.getAppCategoryListByParentId((Integer)null);
+    } catch (Exception e) {
+      e.printStackTrace();
     }
 
     model.addAttribute("appInfoList", appInfoList);
@@ -123,12 +115,12 @@ public class AppCheckController {
     model.addAttribute("queryCategoryLevel3", queryCategoryLevel3);
     model.addAttribute("queryFlatformId", queryFlatformId);
     if (queryCategoryLevel2 != null && !queryCategoryLevel2.equals("")) {
-      categoryLevel2List = this.getCategoryList(queryCategoryLevel1.toString());
+      categoryLevel2List = getCategoryList(queryCategoryLevel1.toString());
       model.addAttribute("categoryLevel2List", categoryLevel2List);
     }
 
     if (queryCategoryLevel3 != null && !queryCategoryLevel3.equals("")) {
-      categoryLevel3List = this.getCategoryList(queryCategoryLevel2.toString());
+      categoryLevel3List = getCategoryList(queryCategoryLevel2.toString());
       model.addAttribute("categoryLevel3List", categoryLevel3List);
     }
 
@@ -139,9 +131,9 @@ public class AppCheckController {
     List dataDictionaryList = null;
 
     try {
-      dataDictionaryList = this.dataDictionaryService.getDataDictionaryList(typeCode);
-    } catch (Exception var4) {
-      var4.printStackTrace();
+      dataDictionaryList = dataDictionaryService.getDataDictionaryList(typeCode);
+    } catch (Exception e) {
+      e.printStackTrace();
     }
 
     return dataDictionaryList;
@@ -151,9 +143,9 @@ public class AppCheckController {
     List categoryLevelList = null;
 
     try {
-      categoryLevelList = this.appCategoryService.getAppCategoryListByParentId(pid == null ? null : Integer.parseInt(pid));
-    } catch (Exception var4) {
-      var4.printStackTrace();
+      categoryLevelList = appCategoryService.getAppCategoryListByParentId(pid == null ? null : Integer.parseInt(pid));
+    } catch (Exception e) {
+      e.printStackTrace();
     }
 
     return categoryLevelList;
@@ -165,12 +157,11 @@ public class AppCheckController {
   )
   @ResponseBody
   public List<AppCategory> getAppCategoryList(@RequestParam String pid) {
-    this.logger.debug("getAppCategoryList pid ============ " + pid);
     if (pid.equals("")) {
       pid = null;
     }
 
-    return this.getCategoryList(pid);
+    return getCategoryList(pid);
   }
 
   @RequestMapping(
@@ -182,10 +173,10 @@ public class AppCheckController {
     AppVersion appVersion = null;
 
     try {
-      appInfo = this.appService.getAppInfo(Integer.parseInt(appId));
-      appVersion = this.appVersionService.getAppVersionById(Integer.parseInt(versionId));
-    } catch (Exception var7) {
-      var7.printStackTrace();
+      appInfo = appService.getAppInfo(Integer.parseInt(appId));
+      appVersion = appVersionService.getAppVersionById(Integer.parseInt(versionId));
+    } catch (Exception e) {
+      e.printStackTrace();
     }
 
     model.addAttribute(appVersion);
@@ -198,14 +189,13 @@ public class AppCheckController {
    method = {RequestMethod.POST}
   )
   public String checkSave(AppInfo appInfo) {
-    this.logger.debug("appInfo =========== > " + appInfo.getStatus());
 
     try {
-      if (this.appService.updateSatus(appInfo.getStatus(), appInfo.getId())) {
+      if (appService.updateSatus(appInfo.getStatus(), appInfo.getId())) {
         return "redirect:/manage/backend/app/list";
       }
-    } catch (Exception var3) {
-      var3.printStackTrace();
+    } catch (Exception e) {
+      e.printStackTrace();
     }
 
     return "backend/appcheck";

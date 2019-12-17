@@ -56,6 +56,7 @@
 							</tr>
 						</thead>
 						<tbody>
+                        <%--jstl循环打印软件名称、版本号、版本大小、发布状态名称、apk文件url+apk名称（下载路径）、apk版本修改日期--%>
 							<c:forEach var="appVersion" items="${appVersionList }" varStatus="status">
 								<tr role="row" class="odd">
 									<td tabindex="0" class="sorting_1">${appVersion.appName}</td>
@@ -85,12 +86,15 @@
         <div class="x_content" style="display: block;">
          <br>
         <form class="form-horizontal form-label-left" action="appversionmodifysave" method="post" enctype="multipart/form-data">
-           <input type="hidden" name="id" id="id" value="${appVersion.id}">
+           <%--获取版本号id--%>
+            <input type="hidden" name="id" id="id" value="${appVersion.id}">
+               <%--获取appid--%>
            <input type="hidden" name="appId" id="appId" value="${appVersion.appId}">
           <div class="item form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">版本号 <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
+                <%--版本号--%>
               <input class="form-control col-md-7 col-xs-12" value="${appVersion.versionNo }" 
               type="text" readonly="readonly" id="versionNo" name="versionNo">
             </div>
@@ -99,6 +103,7 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">版本大小 <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
+                <%--版本大小--%>
               <input type="number" id="versionSize" name="versionSize" value="${appVersion.versionSize }"  required="required"
               data-validate-minmax="10,500"  placeholder="请输入版本大小，单位为Mb" class="form-control col-md-7 col-xs-12">
             </div>
@@ -107,6 +112,7 @@
           <div class="item form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12"  for="select">发布状态 <span class="required">*</span></label>
             <div class="col-md-6 col-sm-6 col-xs-12">
+                <%--发布状态--%>
               <input type="hidden" name="publishStatus" id="publishStatus" value="3">预发布
             </div>
           </div>
@@ -117,6 +123,7 @@
             <div class="col-md-6 col-sm-6 col-xs-12">
               <textarea id="versionInfo" name="versionInfo" required="required"  
               placeholder="请输入本版本的相关信息，本信息作为该版本的详细信息进行版本介绍。" class="form-control col-md-7 col-xs-12">
+             <%--版本介绍--%>
               ${appVersion.versionInfo }</textarea>
             </div>
           </div>
@@ -124,6 +131,7 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">apk文件 <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
+                <%--隐藏域存放url地址、存储路径、apk文件名称--%>
             <input type="hidden" id="downloadLink" name="downloadLink" value="${appVersion.downloadLink}"/>
             <input type="hidden" id="apkLocPath" name="apkLocPath" value="${appVersion.apkLocPath}"/>
             <input type="hidden" id="apkFileName" name="apkFileName" value="${appVersion.apkFileName}"/>
@@ -132,6 +140,7 @@
 				<p><span style="color:red;font-weight: bold;">*注：1、大小不得超过500m.2、文件类型：apk</span></p>
 			</div>
 			<div id="apkFile"></div>
+                    <%--错误提示--%>
 			${fileUploadError }
             </div>
           </div>

@@ -4,6 +4,7 @@
 <div class="page-title">
 	<div class="title_left">
 		<h3>
+			<%--获取session域对象里面的开发者名称--%>
 			欢迎你：${devUserSession.devName }<strong> | 角色：开发者账户</strong>
 		</h3>
 	</div>

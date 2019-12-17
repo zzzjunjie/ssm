@@ -7,7 +7,6 @@ package cn.appsys.controller.backend;
 
 import cn.appsys.pojo.BackendUser;
 import cn.appsys.service.backend.BackendUserService;
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,20 +19,14 @@ import javax.servlet.http.HttpSession;
 @Controller
 @RequestMapping({"/manage"})
 public class UserLoginController {
-  private Logger logger = Logger.getLogger(UserLoginController.class);
   @Resource
   private BackendUserService backendUserService;
 
   public UserLoginController() {
   }
 
-  @RequestMapping("/hello")
-  public String hello(){
-    return "hello world";
-  }
   @RequestMapping({"/login"})
   public String login() {
-    this.logger.debug("LoginController welcome AppInfoSystem backend==================");
     return "backendlogin";
   }
 
@@ -42,7 +35,6 @@ public class UserLoginController {
    method = {RequestMethod.POST}
   )
   public String doLogin(@RequestParam String userCode, @RequestParam String userPassword, HttpServletRequest request, HttpSession session) {
-    this.logger.debug("doLogin====================================");
     BackendUser user = null;
 
     try {

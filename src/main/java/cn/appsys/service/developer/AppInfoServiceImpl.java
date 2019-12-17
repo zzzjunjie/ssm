@@ -30,7 +30,7 @@ public class AppInfoServiceImpl implements AppInfoService {
 
   public boolean add(AppInfo appInfo) throws Exception {
     boolean flag = false;
-    if (this.mapper.add(appInfo) > 0) {
+    if (mapper.add(appInfo) > 0) {
       flag = true;
     }
 
@@ -39,7 +39,7 @@ public class AppInfoServiceImpl implements AppInfoService {
 
   public boolean modify(AppInfo appInfo) throws Exception {
     boolean flag = false;
-    if (this.mapper.modify(appInfo) > 0) {
+    if (mapper.modify(appInfo) > 0) {
       flag = true;
     }
 
@@ -48,7 +48,7 @@ public class AppInfoServiceImpl implements AppInfoService {
 
   public boolean deleteAppInfoById(Integer delId) throws Exception {
     boolean flag = false;
-    if (this.mapper.deleteAppInfoById(delId) > 0) {
+    if (mapper.deleteAppInfoById(delId) > 0) {
       flag = true;
     }
 
@@ -56,20 +56,20 @@ public class AppInfoServiceImpl implements AppInfoService {
   }
 
   public AppInfo getAppInfo(Integer id, String APKName) throws Exception {
-    return this.mapper.getAppInfo(id, APKName);
+    return mapper.getAppInfo(id, APKName);
   }
 
   public List<AppInfo> getAppInfoList(String querySoftwareName, Integer queryStatus, Integer queryCategoryLevel1, Integer queryCategoryLevel2, Integer queryCategoryLevel3, Integer queryFlatformId, Integer devId, Integer currentPageNo, Integer pageSize) throws Exception {
-    return this.mapper.getAppInfoList(querySoftwareName, queryStatus, queryCategoryLevel1, queryCategoryLevel2, queryCategoryLevel3, queryFlatformId, devId, (currentPageNo - 1) * pageSize, pageSize);
+    return mapper.getAppInfoList(querySoftwareName, queryStatus, queryCategoryLevel1, queryCategoryLevel2, queryCategoryLevel3, queryFlatformId, devId, (currentPageNo - 1) * pageSize, pageSize);
   }
 
   public int getAppInfoCount(String querySoftwareName, Integer queryStatus, Integer queryCategoryLevel1, Integer queryCategoryLevel2, Integer queryCategoryLevel3, Integer queryFlatformId, Integer devId) throws Exception {
-    return this.mapper.getAppInfoCount(querySoftwareName, queryStatus, queryCategoryLevel1, queryCategoryLevel2, queryCategoryLevel3, queryFlatformId, devId);
+    return mapper.getAppInfoCount(querySoftwareName, queryStatus, queryCategoryLevel1, queryCategoryLevel2, queryCategoryLevel3, queryFlatformId, devId);
   }
 
   public boolean deleteAppLogo(Integer id) throws Exception {
     boolean flag = false;
-    if (this.mapper.deleteAppLogo(id) > 0) {
+    if (mapper.deleteAppLogo(id) > 0) {
       flag = true;
     }
 
@@ -78,10 +78,10 @@ public class AppInfoServiceImpl implements AppInfoService {
 
   public boolean appsysdeleteAppById(Integer id) throws Exception {
     boolean flag = false;
-    int versionCount = this.appVersionMapper.getVersionCountByAppId(id);
+    int versionCount = appVersionMapper.getVersionCountByAppId(id);
     List<AppVersion> appVersionList = null;
     if (versionCount > 0) {
-      appVersionList = this.appVersionMapper.getAppVersionList(id);
+      appVersionList = appVersionMapper.getAppVersionList(id);
       Iterator var6 = appVersionList.iterator();
 
       while(var6.hasNext()) {
@@ -94,10 +94,10 @@ public class AppInfoServiceImpl implements AppInfoService {
         }
       }
 
-      this.appVersionMapper.deleteVersionByAppId(id);
+      appVersionMapper.deleteVersionByAppId(id);
     }
 
-    AppInfo appInfo = this.mapper.getAppInfo(id, (String)null);
+    AppInfo appInfo = mapper.getAppInfo(id, (String)null);
     if (appInfo.getLogoLocPath() != null && !appInfo.getLogoLocPath().equals("")) {
       File file = new File(appInfo.getLogoLocPath());
       if (file.exists() && !file.delete()) {
@@ -105,7 +105,7 @@ public class AppInfoServiceImpl implements AppInfoService {
       }
     }
 
-    if (this.mapper.deleteAppInfoById(id) > 0) {
+    if (mapper.deleteAppInfoById(id) > 0) {
       flag = true;
     }
 
@@ -115,22 +115,22 @@ public class AppInfoServiceImpl implements AppInfoService {
   public boolean appsysUpdateSaleStatusByAppId(AppInfo appInfoObj) throws Exception {
     Integer operator = appInfoObj.getModifyBy();
     if (operator >= 0 && appInfoObj.getId() >= 0) {
-      AppInfo appInfo = this.mapper.getAppInfo(appInfoObj.getId(), (String)null);
+      AppInfo appInfo = mapper.getAppInfo(appInfoObj.getId(), (String)null);
       if (appInfo == null) {
         return false;
       } else {
         switch((int) appInfo.getStatus()) {
           case 2:
-            this.onSale(appInfo, operator, 4, 2);
+            onSale(appInfo, operator, 4, 2);
             break;
           case 3:
           default:
             return false;
           case 4:
-            this.offSale(appInfo, operator, 5);
+            offSale(appInfo, operator, 5);
             break;
           case 5:
-            this.onSale(appInfo, operator, 4, 2);
+            onSale(appInfo, operator, 4, 2);
         }
 
         return true;
@@ -141,8 +141,8 @@ public class AppInfoServiceImpl implements AppInfoService {
   }
 
   private void onSale(AppInfo appInfo, Integer operator, Integer appInfStatus, Integer versionStatus) throws Exception {
-    this.offSale(appInfo, operator, appInfStatus);
-    this.setSaleSwitchToAppVersion(appInfo, operator, versionStatus);
+    offSale(appInfo, operator, appInfStatus);
+    setSaleSwitchToAppVersion(appInfo, operator, versionStatus);
   }
 
   private boolean offSale(AppInfo appInfo, Integer operator, Integer appInfStatus) throws Exception {
@@ -151,7 +151,7 @@ public class AppInfoServiceImpl implements AppInfoService {
     _appInfo.setStatus(appInfStatus);
     _appInfo.setModifyBy(operator);
     _appInfo.setOffSaleDate(new Date(System.currentTimeMillis()));
-    this.mapper.modify(_appInfo);
+    mapper.modify(_appInfo);
     return true;
   }
 
@@ -161,7 +161,7 @@ public class AppInfoServiceImpl implements AppInfoService {
     appVersion.setPublishStatus(saleStatus);
     appVersion.setModifyBy(operator);
     appVersion.setModifyDate(new Date(System.currentTimeMillis()));
-    this.appVersionMapper.modify(appVersion);
+    appVersionMapper.modify(appVersion);
     return false;
   }
 }

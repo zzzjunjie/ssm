@@ -12,7 +12,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>APP开发者平台</title>
-
+	<%--导入CSS--%>
 	<!-- Bootstrap -->
 	<link href="${pageContext.request.contextPath }/statics/css/bootstrap.min.css" rel="stylesheet">
 	<!-- Font Awesome -->
@@ -55,6 +55,7 @@
 						</div>
 						<div class="profile_info">
 							<span>Welcome,</span>
+							<%--获取开发者的账号显示在页面上--%>
 							<h2>${devUserSession.devCode }</h2>
 						</div>
 					</div>
@@ -62,7 +63,7 @@
 
 					<br />
 
-					<!-- sidebar menu -->
+					<!-- 左边下拉列表 menu -->
 					<div id="sidebar-menu"
 						class="main_menu_side hidden-print main_menu">
 						<div class="menu_section">
@@ -81,6 +82,7 @@
 										class="fa fa-chevron-down"></span>
 								</a>
 									<ul class="nav child_menu">
+										<%--跳转请求到DevLoginController控制器中请求getAppInfoList--%>
 										<li><a href="${pageContext.request.contextPath }/dev/flatform/app/list">APP维护</a>
 										</li>
 									</ul></li>

@@ -67,8 +67,11 @@ $(".addVersion").on("click",function(){
 });
 $(".modifyVersion").on("click",function(){
 	var obj = $(this);
+	//状态（1 待审核 2 审核通过 3 审核不通过 4 已上架 5 已下架）
 	var status = obj.attr("status");
+	//app版本id
 	var versionid = obj.attr("versionid");
+	//app信息id
 	var appinfoid = obj.attr("appinfoid");
 	if(status == "1" || status == "3"){//待审核、审核未通过状态下才可以进行修改操作
 		if(versionid == null || versionid == ""){
@@ -82,6 +85,7 @@ $(".modifyVersion").on("click",function(){
 });
 $(".modifyAppInfo").on("click",function(){
 	var obj = $(this);
+	//获取类型编码 1待审核 2审核通过 3审核失败 4 已上架 5 已下架
 	var status = obj.attr("status");
 	if(status == "1" || status == "3"){//待审核、审核未通过状态下才可以进行修改操作
 		window.location.href="appinfomodify?id="+ obj.attr("appinfoid");
@@ -181,6 +185,7 @@ $(".viewApp").on("click",function(){
 $(".deleteApp").on("click",function(){
 	var obj = $(this);
 	if(confirm("你确定要删除APP应用【"+obj.attr("appsoftwarename")+"】及其所有的版本吗？")){
+		//如果点击确定删除，ajax请求后台删除，传入删除的appid
 		$.ajax({
 			type:"GET",
 			url:"delapp.json",
